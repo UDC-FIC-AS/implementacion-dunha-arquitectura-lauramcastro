@@ -19,17 +19,15 @@ defmodule Dbus do
 
   ## Exemplos:
 
-      iex> Dbus.start()
-      :ok
+      iex> Dbus.start_link([])
       iex> Process.whereis(Dbus) |> Process.alive?
       true
       iex> Dbus.stop()
 
   """
-  @spec start() :: :ok
-  def start() do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, [], name: __MODULE__)
-    :ok
+  @spec start_link(term()) :: {:ok, pid()}
+  def start_link(_init_arg) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @doc """
@@ -37,7 +35,7 @@ defmodule Dbus do
 
   ## Exemplos:
 
-     iex> Dbus.start()
+     iex> Dbus.start_link([])
      iex> Dbus.put(:etiqueta, "Información")
      :ok
      iex> Dbus.stop()
@@ -53,7 +51,7 @@ defmodule Dbus do
 
   ## Examplos:
 
-      iex> Dbus.start()
+      iex> Dbus.start_link([])
       iex> Dbus.put(:etiqueta, "Información")
       iex> Dbus.get(:etiqueta)
       {:ok, "Información"}
@@ -70,10 +68,9 @@ defmodule Dbus do
 
   ## Exemplos:
 
-     iex> Dbus.start()
+     iex> Dbus.start_link([])
      iex> Dbus.stop()
-     iex> Process.whereis(Dbus)
-     nil
+     :ok
 
   """
   @spec stop() :: :ok
