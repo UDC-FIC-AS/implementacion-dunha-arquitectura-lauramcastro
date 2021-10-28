@@ -1,0 +1,12 @@
+@startuml RepositoryC1
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(cliente, "Cliente", "Quere usar o escritorio")
+
+System_Boundary(sistema, "Sistema") {
+  System(repositorio, "Proxecto inspirado en DBus", "Recibe, ofrece e mantén a información que xeran as diferentes compoñentes do escritorio", "Elixir")
+}
+
+Rel(cliente, sistema, "Interactúa", "a través da pantalla")
+
+@enduml
