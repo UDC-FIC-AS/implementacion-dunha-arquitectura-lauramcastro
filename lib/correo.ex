@@ -18,17 +18,15 @@ defmodule Correo do
 
   ## Exemplos:
 
-    iex> Correo.start()
-    :ok
+    iex> Correo.start_link([])
     iex> Process.whereis(Correo) |> Process.alive?
     true
     iex> Correo.stop()
 
   """
-  @spec start() :: :ok
-  def start() do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, [], name: __MODULE__)
-    :ok
+  @spec start_link(term()) :: {:ok, pid()}
+  def start_link(_init_arg) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @doc """
@@ -36,7 +34,7 @@ defmodule Correo do
 
   ## Exemplos:
 
-     iex> Correo.start()
+     iex> Correo.start_link([])
      iex> Correo.ler_pendentes()
      :ok
      iex> Correo.stop()
@@ -52,7 +50,7 @@ defmodule Correo do
 
   ## Exemplos:
 
-     iex> Correo.start()
+     iex> Correo.start_link([])
      iex> Correo.stop()
      iex> Process.whereis(Correo)
      nil
