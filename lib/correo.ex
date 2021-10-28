@@ -72,25 +72,18 @@ defmodule Correo do
     {:ok, 0}
   end
 
-  # @impl true
-  # def handle_call(:pop, _from, [head | tail]) do
-  #   {:reply, head, tail}
-  # end
-
   @impl true
   def handle_cast(:mark_read, unread_emails) do
     Logger.info("Marking all #{unread_emails} unread emails as read")
-    # : comunicarse co repositorio para eliminar a notificación de correo sen ler
+    Dbus.put(:unread_emails, 0)
     {:noreply, 0}
   end
 
   @impl true
   def handle_info({:receive_emails, new_emails}, unread_emails) do
-    Logger.info(
-      "New #{new_emails} emails received, total unread is #{new_emails + unread_emails}"
-    )
+    Logger.info("Got #{new_emails} new emails, total unread is #{new_emails + unread_emails}")
+    Dbus.put(:unread_emails, new_emails + unread_emails)
 
-    # : comunicarse co repositorio para enviar/actualizar a notificación de correos por ler
     {:ok, _pid} = Task.start(fn -> send_fake_emails(__MODULE__) end)
     Logger.info("Send fake emails task scheduled")
     {:noreply, new_emails + unread_emails}
