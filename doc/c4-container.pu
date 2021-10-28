@@ -1,0 +1,24 @@
+@startuml RepositoryC2
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(cliente, "Cliente", "Quere usar o escritorio")
+
+System_Boundary(sistema, "Sistema") {
+   Component(cliente1, "Área de notificacións", "Mostra avisos cando hai notificacións")
+   Component(cliente2, "Cliente de correo", "Xera notificacións cando hai correo sen ler")
+   Component(cliente3, "Calendario", "Xera notificacións cando hai reunións a piques de comezar")
+   Component(cliente4, "Chat", "Xera notificacións cando hai novas mensaxes")
+   Component(cliente5, "Alertas sonoras", "Reproduce sons cando hai notificacións")
+   Component(cliente6, "Rexistro de traballo", "Leva conta de cantos correos e reunións se realizan no día")
+   Component(repositorio, "DBus", "Recibe, ofrece e xestiona notificacións")
+}
+
+Rel(cliente, sistema, "Interactúa", "a través da pantalla")
+Rel_U(cliente1, repositorio, "Lee", "Notificacións de todo tipo")
+Rel_D(cliente2, repositorio, "Envía", "Notificacións de novo correo")
+Rel_D(cliente3, repositorio, "Envía", "Notificacións de nova reunión")
+Rel_D(cliente4, repositorio, "Envía", "Notificacións de nova mensaxe")
+Rel_U(cliente5, repositorio, "Lee", "Notificacións de todo tipo")
+Rel_U(cliente6, repositorio, "Lee", "Notificacións de novo correo e nova reunión")
+
+@enduml
