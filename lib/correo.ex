@@ -66,30 +66,25 @@ defmodule Correo do
   def init(_init_arg) do
     Logger.info("GenServer Correo initialized")
     {:ok, _pid} = Task.start(fn -> send_fake_emails(__MODULE__) end)
-    Logger.info("Send fake emails task scheduled")
     {:ok, 0}
   end
 
   @impl true
-  def handle_cast(:mark_read, unread_emails) do
-    Logger.info("Marking all #{unread_emails} unread emails as read")
+  def handle_cast(:mark_read, _unread_emails) do
     Dbus.put(:unread_emails, 0)
     {:noreply, 0}
   end
 
   @impl true
   def handle_info({:receive_emails, new_emails}, unread_emails) do
-    Logger.info("Got #{new_emails} new emails, total unread is #{new_emails + unread_emails}")
     Dbus.put(:unread_emails, new_emails + unread_emails)
 
     {:ok, _pid} = Task.start(fn -> send_fake_emails(__MODULE__) end)
-    Logger.info("Send fake emails task scheduled")
     {:noreply, new_emails + unread_emails}
   end
 
   defp send_fake_emails(correo) do
     {new_emails, timeout} = {Enum.random(1..10), Enum.random(1_000..5_000)}
-    Logger.info("Sending #{new_emails} new emails after #{timeout} seconds")
     Process.sleep(timeout)
     send(correo, {:receive_emails, new_emails})
   end

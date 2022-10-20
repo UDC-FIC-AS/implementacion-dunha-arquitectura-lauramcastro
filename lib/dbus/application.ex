@@ -11,7 +11,8 @@ defmodule Dbus.Application do
       # Starts a worker by calling: Dbus.Worker.start_link(arg)
       # {Dbus.Worker, arg}
       {Dbus, []},
-      {Correo, []}
+      {Correo, []},
+      {Notificacions, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

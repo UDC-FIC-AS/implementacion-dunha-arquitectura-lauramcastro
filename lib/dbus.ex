@@ -87,13 +87,11 @@ defmodule Dbus do
 
   @impl true
   def handle_call({:get_info, tag}, _from, data) do
-    Logger.info("Got new data request: #{tag}")
     {:reply, Keyword.get(data, tag), data}
   end
 
   @impl true
   def handle_cast({:add_info, tag, info}, data) do
-    Logger.info("Got new data: {#{tag}, #{info}}")
     {:noreply, Keyword.put(data, tag, info)}
   end
 end
