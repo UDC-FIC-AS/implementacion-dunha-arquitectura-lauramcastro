@@ -1,0 +1,17 @@
+@startuml RepositoryC3
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(cliente, "Cliente", "Quere usar o escritorio")
+
+System_Boundary(sistema, "Sistema") {
+   Component(cliente2, "Cliente de correo", "GenServer", "Xera notificacións cando hai correo sen ler")
+   Component(repositorio, "DBus", "GenServer", "Recibe, ofrece e xestiona notificacións")
+
+   Component(task, "Tarefa", "Task", "Envía correos falsos aleatoriamente")
+}
+
+Rel(cliente, sistema, "Interactúa", "a través da pantalla")
+Rel_D(cliente2, repositorio, "Envía", "Notificacións de novo correo")
+Rel_L(task, cliente2, "Envía correos", "")
+
+@enduml
